@@ -1,6 +1,6 @@
 const Post = require("../Models/Post");
 
-async function addPost  (req, res)  {
+async function addPost(req, res) {
   try {
     const newPost = new Post({
       title: req.body.title,
@@ -11,22 +11,22 @@ async function addPost  (req, res)  {
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
-};
+}
 
-async function getAllPosts  (req, res) {
-  try {
-    const posts = await Post.find();
-  res.status(200).send(posts);
-  } catch (error) {
-     console.log(error )
-  }
-};
+function getAllPosts(req, res) {
+  Post.find()
+    .then((posts) => {
+      res.status(200).send(posts);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
 updatePost = async (req, res) => {
-    
   try {
     const updated = await Post.findByIdAndUpdate(req.params.id, {
-        title: req.body.title,
+      title: req.body.title,
     });
 
     res.status(200).json(updated);
@@ -38,5 +38,5 @@ updatePost = async (req, res) => {
 module.exports = {
   addPost,
   getAllPosts,
-    updatePost,
+  updatePost,
 };
